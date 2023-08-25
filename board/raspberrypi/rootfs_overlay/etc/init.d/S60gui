@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Starting UI
+#
+
+case "$1" in
+  start)
+	printf "Loading Application"
+        mkdir /tmp/cores -p
+        echo "/tmp/cores/core.%e.%p.%h.%t" > /proc/sys/kernel/core_pattern
+        ulimit -c unlimited
+        sh /root/respawn.sh </dev/null &>/tmp/stdout.txt &
+	;;
+  stop)
+	printf "Nothing to do"
+	;;
+  restart|reload)
+	"$0" stop
+	"$0" start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+
