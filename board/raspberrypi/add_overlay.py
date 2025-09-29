@@ -6,8 +6,8 @@ ttyama0 = "pi3-miniuart-bt-overlay.dtb"
 ft5406 = "rpi-ft5406-overlay.dtb"
 i2crtc = "i2c-rtc-overlay.dtb"
 
-#overlays = [ttyama0, ft5406, i2crtc]
-overlays = [ft5406, i2crtc]
+# overlays = [ttyama0, ft5406, i2crtc]
+overlays = [ft5406, i2crtc, "vc4-kms-v3d-overlay.dtb", "vc4-kms-dsi-waveshare-panel-overlay.dtb"]
 
 cmdline = "{}/rpi-firmware/cmdline.txt".format(sys.argv[1])
 config = "{}/rpi-firmware/config.txt".format(sys.argv[1])
@@ -38,7 +38,9 @@ with open(config, 'r+') as f:
     nosplash = 'disable_splash=1\n'
     dtparam = 'dtparam=i2c_arm=on\n'
 
-    options = [uartoverlay, rtcoverlay, nosplash, dtparam, 'boot_delay=0\n', 'max_framebuffers=2\n', 'display_default_lcd=1\n', 'hdmi_force_hotplug=1\n']
+    options = [uartoverlay, rtcoverlay, nosplash, dtparam, 'boot_delay=0\n',
+               'max_framebuffers=2\n', 'display_default_lcd=1\n', 'hdmi_force_hotplug=1\n',
+               "dtoverlay=vc4-kms-v3d\n", "dtoverlay=vc4-kms-dsi-waveshare-panel,10_1_inch\n"]
 
     for option in options:
         if not option in content:
